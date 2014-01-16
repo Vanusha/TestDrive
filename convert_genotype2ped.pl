@@ -21,7 +21,7 @@ use warnings;
 use strict;
 
 my $file = $ARGV[0];       # the filename of the text file
-my $output = $file;        # the filename of output ped file
+my $output = $file;
 $output =~ s/.txt$/.ped/;
 
 my $separator = $ARGV[1];  # the optional separator
@@ -32,12 +32,11 @@ open my $in, "< $file" or die "Cannot open input";
 open my $out, "> $output" or die "Cannot create output";
 my $line_count = 1;
 while (<$in>) {
-	next if /^#/;           # skip the # comment line
+	next if /^#/;
 	chomp (my $line = $_);
-	$line =~ s/\s+$//;      # remove any trailing space characters
+	$line =~ s/\s+$//;
 	my ($famID, $indID, $pID, $mID, $sex, $pheno, @vars) = split /$separator/, $line;
 
-	# check if any of these above six variables are undefined.
 	if ( (not defined $famID) || (not defined $indID) || (not defined $pID)
 		 || (not defined $mID) || (not defined $sex) || (not defined $pheno) ) {
 		warn "Incorrect format of Line $line_count, check if it's due to wrong separator.\n";
